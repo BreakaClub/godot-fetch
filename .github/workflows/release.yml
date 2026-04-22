@@ -31,9 +31,14 @@ jobs:
         run: |
           set -euo pipefail
 
-          changed_files="$(git show --name-only --pretty='' '${{ github.event.workflow_run.head_sha }}')"
+          last_tag="$(git tag --list 'godot-fetch@*' --sort=-v:refname | head -n1)"
+          if [[ -n "$last_tag" ]]; then
+            changed_files="$(git diff --name-only "${last_tag}..${{ github.event.workflow_run.head_sha }}")"
+          else
+            changed_files="$(git ls-files)"
+          fi
 
-          root_changes="$(printf '%s\n' "$changed_files" | grep -E -v '^$|^packages/cookies-sqlite/' || true)"
+          root_changes="$(printf '%s\n' "$changed_files" | grep -E -v '^$|^\\.github/|^scripts/|^packages/|^pnpm-workspace\\.yaml$|^\\.gitmodules$|^\\.gitignore$|^\\.editorconfig$|^eslint\\.config\\.mjs$|^\\.node-version$' || true)"
           if [[ -n "$root_changes" ]]; then
             echo "release_needed=true" >> "$GITHUB_OUTPUT"
             echo "Detected godot-fetch release-scope changes."
