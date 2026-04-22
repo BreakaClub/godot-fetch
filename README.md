@@ -8,7 +8,7 @@ The desktop/mobile/console implementation is backed by Godot's
 [HTTPClient](https://docs.godotengine.org/en/stable/classes/class_httpclient.html).
 
 On the web, `godot-fetch` will seamlessly use the browser's built-in `fetch` and does so directly without routing via `HTTPClient`. Using
-the browser's `fetch` implementation directly saves on WASM bridge round trips and is more efficient that using `HTTPClient` in web exports.
+the browser's `fetch` implementation directly saves on WASM bridge round trips and is more efficient than using `HTTPClient` in web exports.
 
 ## Additional Web APIs
 
@@ -103,10 +103,8 @@ To accept cookies from your backend domains, set them at startup:
 ```ts
 import { setCookiePermittedDomains } from 'godot-fetch/cookies';
 
-setCookiePermittedDomains(['localhost', 'game.breaka.club', 'breaka.club']);
+setCookiePermittedDomains(['localhost', 'yourdomain.com']);
 ```
-
-This matches how Breaka configures API calls in `breaka-rpg/src/web/breaka/submit.ts`.
 
 ### 2. How automatic cookie handling works
 

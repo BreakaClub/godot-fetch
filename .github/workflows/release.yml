@@ -38,7 +38,7 @@ jobs:
             changed_files="$(git ls-files)"
           fi
 
-          root_changes="$(printf '%s\n' "$changed_files" | grep -E -v '^$|^\\.github/|^scripts/|^packages/|^pnpm-workspace\\.yaml$|^\\.gitmodules$|^\\.gitignore$|^\\.editorconfig$|^eslint\\.config\\.mjs$|^\\.node-version$' || true)"
+          root_changes="$(printf '%s\n' "$changed_files" | grep -E -v '^$|^\\.github/|^scripts/|^packages/|^pnpm-workspace\\.yaml$|^\\.gitmodules$|^\\.gitignore$|^\\.editorconfig$|^eslint\\.config\\.mjs$|^\\.node-version$|^README(\\.md)?$' || true)"
           if [[ -n "$root_changes" ]]; then
             echo "release_needed=true" >> "$GITHUB_OUTPUT"
             echo "Detected godot-fetch release-scope changes."
